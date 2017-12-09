@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import sweeper.Box;
 import sweeper.Coord;
@@ -11,11 +13,11 @@ public class MineSweeper extends JFrame{
     private Game game;
 
     private JPanel panel;
-    private final int COLS = 5;
-    private final int ROWS = 5;
+    private final int COLS = 9;
+    private final int ROWS = 9;
     private final int IMG_SIZE = 50;
-    private final int PANEL_OFFSET = 5;
-    private final int TOTAL_BOMBS = 1;
+    private final int PANEL_OFFSET = 0;
+    private final int TOTAL_BOMBS = 10;
 
     public static void main(String[] args) { new MineSweeper(); }
 
@@ -42,6 +44,21 @@ public class MineSweeper extends JFrame{
                 }
             }
         };
+        panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(e.getButton() == MouseEvent.BUTTON1){
+                    Coord coord = new Coord(e.getX()/IMG_SIZE, e.getY()/IMG_SIZE);
+                    game.pressedLeftButton(coord);
+                    panel.repaint();
+                }
+                else if(e.getButton() == MouseEvent.BUTTON3) {
+                    Coord coord = new Coord(e.getX()/IMG_SIZE, e.getY()/IMG_SIZE);
+                    game.pressedRightButton(coord);
+                    panel.repaint();
+                }
+            }
+        });
         panel.setPreferredSize(new Dimension(
                 Ranges.getSize().x * IMG_SIZE,
                 Ranges.getSize().y * IMG_SIZE));

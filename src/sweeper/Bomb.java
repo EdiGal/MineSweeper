@@ -33,8 +33,14 @@ class Bomb {
         }while (!canPlace(coord));
         placedBombs.add(coord);
         bombMap.setBox(coord, Box.BOMB);
-        for(Coord around : Ranges.getCoordsAround(coord)){
-            bombMap.setBox(around, Box.NUM1);
+        incrementAroundBomb(coord);
+    }
+
+    private void incrementAroundBomb(Coord bombCoord){
+        for(Coord around : Ranges.getCoordsAround(bombCoord)){
+            if(canPlace(around)){
+                bombMap.setBox(around, bombMap.getBox(around).nextNumBox());
+            }
         }
     }
 
