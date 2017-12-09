@@ -2,18 +2,26 @@ import javax.swing.*;
 import java.awt.*;
 
 import sweeper.Box;
+import sweeper.Coord;
+import sweeper.Game;
+import sweeper.Ranges;
 
 public class MineSweeper extends JFrame{
 
+    private Game game;
+
     private JPanel panel;
-    private final int COLS = 15;
-    private final int ROWS = 1;
+    private final int COLS = 3;
+    private final int ROWS = 3;
     private final int IMG_SIZE = 50;
     private final int PANEL_OFFSET = 5;
+    private final int TOTAL_BOMBS = 8;
 
     public static void main(String[] args) { new MineSweeper(); }
 
     public MineSweeper() {
+        game = new Game(COLS, ROWS, TOTAL_BOMBS);
+        game.start();
         setImage();
         iniPanel();
         initFrame();
@@ -24,23 +32,32 @@ public class MineSweeper extends JFrame{
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                //setStartView(g);
-                for(Box box : Box.values()) {
-                    g.drawImage((Image)box.image, box.ordinal() * IMG_SIZE,0,this);
+//                setStartView(g);
+//                for(Box box : Box.values()) {
+//                    Coord coord = new Coord(box.ordinal() * IMG_SIZE, 0);
+//                    g.drawImage((Image)box.image, coord.x ,coord.y,this);
+//                }
+                for(Coord coord : Ranges.getAllCoords()){
+                    System.out.println(game);
+                    System.out.println(game.getBox(coord).image);
+                    g.drawImage((Image)game.getBox(coord).image, PANEL_OFFSET+coord.x*IMG_SIZE, PANEL_OFFSET+coord.y*IMG_SIZE, this);
                 }
             }
         };
-        panel.setPreferredSize(new Dimension(COLS*IMG_SIZE, ROWS*IMG_SIZE));
+        panel.setPreferredSize(new Dimension(
+                Ranges.getSize().x * IMG_SIZE,
+                Ranges.getSize().y * IMG_SIZE));
         add(panel);
     }
 
     public void initFrame(){
-        pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sweeper");
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
+        setIconImage(getImage("icon"));
+        pack();
     }
 
     private void setImage(){
