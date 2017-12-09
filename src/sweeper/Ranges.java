@@ -1,6 +1,7 @@
 package sweeper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Ranges {
@@ -34,6 +35,20 @@ public class Ranges {
     public static Coord getRandomCoord(){
         return new Coord(random.nextInt(size.x),
                          random.nextInt(size.y));
+    }
+
+    static List<Coord> getCoordsAround(Coord coord){
+        Coord tempCoord;
+        List<Coord> around = new ArrayList<>();
+        for(int x = coord.x-1 ; x<=coord.x+1 ; x++){
+            for(int y = coord.y-1 ; y<=coord.y+1 ; y++){
+                tempCoord = new Coord(x,y);
+                if(inRange(tempCoord) && !tempCoord.equals(coord)){
+                    around.add(tempCoord);
+                }
+            }
+        }
+        return around;
     }
 
 }

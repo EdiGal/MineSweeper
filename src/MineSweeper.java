@@ -11,11 +11,11 @@ public class MineSweeper extends JFrame{
     private Game game;
 
     private JPanel panel;
-    private final int COLS = 3;
-    private final int ROWS = 3;
+    private final int COLS = 5;
+    private final int ROWS = 5;
     private final int IMG_SIZE = 50;
     private final int PANEL_OFFSET = 5;
-    private final int TOTAL_BOMBS = 8;
+    private final int TOTAL_BOMBS = 1;
 
     public static void main(String[] args) { new MineSweeper(); }
 
@@ -38,8 +38,6 @@ public class MineSweeper extends JFrame{
 //                    g.drawImage((Image)box.image, coord.x ,coord.y,this);
 //                }
                 for(Coord coord : Ranges.getAllCoords()){
-                    System.out.println(game);
-                    System.out.println(game.getBox(coord).image);
                     g.drawImage((Image)game.getBox(coord).image, PANEL_OFFSET+coord.x*IMG_SIZE, PANEL_OFFSET+coord.y*IMG_SIZE, this);
                 }
             }

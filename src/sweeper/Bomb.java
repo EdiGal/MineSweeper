@@ -33,16 +33,17 @@ class Bomb {
         }while (!canPlace(coord));
         placedBombs.add(coord);
         bombMap.setBox(coord, Box.BOMB);
+        for(Coord around : Ranges.getCoordsAround(coord)){
+            bombMap.setBox(around, Box.NUM1);
+        }
     }
 
     private Boolean canPlace(Coord _coord){
-        System.out.println("x: " + _coord.x);
-        System.out.println("y: " + _coord.y);
         if(placedBombs.size() == 0){
             return true;
         }
         for(Coord coord: placedBombs) {
-            if(coord.x == _coord.x && coord.y == _coord.y){
+            if(coord.equals(_coord)){
                 return false;
             }
         }
